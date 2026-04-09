@@ -12,7 +12,7 @@ PlayerSettings:
   targetDevice: 2
   useOnDemandResources: 0
   accelerometerFrequency: 60
-  companyName: DefaultCompany
+  companyName: ActivePersonnage
   productName: 6c5-tp1-gk-gr00702
   defaultCursor: {fileID: 0}
   cursorHotspot: {x: 0, y: 0}
@@ -753,7 +753,7 @@ PlayerSettings:
   qnxGraphicConfPath: 
   apiCompatibilityLevel: 6
   captureStartupLogs: {}
-  activeInputHandler: 1
+  activeInputHandler: 2
   windowsGamepadBackendHint: 0
   cloudProjectId: eb4f2dec-e512-4473-9dc5-1b585eb4440e
   framebufferDepthMemorylessMode: 0

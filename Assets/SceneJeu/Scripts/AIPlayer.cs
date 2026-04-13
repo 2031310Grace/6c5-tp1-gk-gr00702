@@ -72,6 +72,8 @@ public class AIPlayer : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+        Debug.Log("Entrée dans trigger : " + other.name);
+
         if (other.CompareTag("SlowZone"))
         {
             player.speed = slowSpeed;

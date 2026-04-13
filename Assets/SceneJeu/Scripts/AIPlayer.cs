@@ -1,4 +1,6 @@
 using System;
+using System.Collections;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
 using Random = UnityEngine.Random;
@@ -8,6 +10,7 @@ public class AIPlayer : MonoBehaviour
 
     public NavMeshAgent player;
     public Transform[] buts;
+    
 
     private Transform currentGoal;
 
@@ -23,14 +26,35 @@ public class AIPlayer : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(!player.pathPending && player.remainingDistance < 0.5f)
+        if(!player.pathPending && player.remainingDistance < 0.2f)
         {
+            StartCoroutine(HandleParticles(currentGoal));
+
             choseNextGoal();
+        }
+    }
+
+    private IEnumerator HandleParticles(Transform currentGoal)
+    {
+        ParticleSystem ps = currentGoal.GetComponentInChildren<ParticleSystem>();
+
+        if (ps != null)
+        {
+            // stop net
+            ps.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
+
+            // attendre 2 secondes
+            yield return new WaitForSeconds(2f);
+
+            // relancer
+            ps.Play();
         }
     }
 
     private void choseNextGoal()
     {
+     
+
         Transform newGoal;
 
         do

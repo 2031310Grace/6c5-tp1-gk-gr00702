@@ -62,8 +62,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\SceneJeu\Scripts\AIPlayer.cs" />
+    <Compile Include="Assets\SceneJeu\Scripts\CameraFollow.cs" />
     <Compile Include="Assets\SceneIntro\Scripts\VideoPlayerCTRL.cs" />
     <Compile Include="Assets\SceneIntro\Scripts\ChangeScene.cs" />
+    <Compile Include="Assets\ChangeView.cs" />
     <Compile Include="Assets\SceneIntro\Scripts\SelectCanvas.cs" />
     <Compile Include="Assets\SceneJeu\Scripts\Rotation.cs" />
   </ItemGroup>

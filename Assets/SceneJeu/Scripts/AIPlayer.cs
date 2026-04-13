@@ -10,14 +10,18 @@ public class AIPlayer : MonoBehaviour
 
     public NavMeshAgent player;
     public Transform[] buts;
-    
+    private float speedPlayer = 5f;
+    private float slowSpeed = 1f;
+   
 
     private Transform currentGoal;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+
         player= GetComponent<NavMeshAgent>();
+        player.speed = speedPlayer;
         choseNextGoal();
     }
 
@@ -36,18 +40,17 @@ public class AIPlayer : MonoBehaviour
 
     private IEnumerator HandleParticles(Transform currentGoal)
     {
-        ParticleSystem ps = currentGoal.GetComponentInChildren<ParticleSystem>();
+        ParticleSystem particules = currentGoal.GetComponentInChildren<ParticleSystem>();
 
-        if (ps != null)
+        if (particules != null)
         {
-            // stop net
-            ps.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
+            particules.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
 
             // attendre 2 secondes
             yield return new WaitForSeconds(2f);
 
-            // relancer
-            ps.Play();
+            // ensuite relancer
+            particules.Play();
         }
     }
 
@@ -65,5 +68,21 @@ public class AIPlayer : MonoBehaviour
 
         currentGoal = newGoal;
         player.SetDestination(currentGoal.position);
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("SlowZone"))
+        {
+            player.speed = slowSpeed;
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.CompareTag("SlowZone"))
+        {
+            player.speed = speedPlayer;
+        }
     }
 }

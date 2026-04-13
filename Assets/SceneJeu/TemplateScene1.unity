@@ -17373,8 +17373,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1.0683662, y: 0.1, z: 0.15950896}
-  m_Center: {x: -0.006497835, y: 0, z: -0.00208243}
+  m_Size: {x: 1.1096117, y: 0.3, z: 0.1795267}
+  m_Center: {x: -0.017535262, y: 0.011156768, z: 0.007926416}
 --- !u!1 &985055286
 GameObject:
   m_ObjectHideFlags: 0
@@ -17957,8 +17957,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1.0550563, y: 0.1, z: 0.15570341}
-  m_Center: {x: -0.00048742708, y: 0, z: 0.0009921938}
+  m_Size: {x: 1.1146101, y: 0.3, z: 0.15570341}
+  m_Center: {x: -0.02350121, y: 0.018256992, z: 0.0009921937}
 --- !u!1001 &1088107343
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -18160,8 +18160,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1.0861981, y: 0.1, z: 0.16686988}
-  m_Center: {x: 0.008487045, y: 0, z: -0.0016735792}
+  m_Size: {x: 1.1509752, y: 0.5, z: 0.18134356}
+  m_Center: {x: 0.026067732, y: 0.011295646, z: -0.008910418}
 --- !u!1 &1168297549
 GameObject:
   m_ObjectHideFlags: 0
@@ -19016,8 +19016,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1.0678407, y: 0.1, z: 0.16859946}
-  m_Center: {x: 0.012288117, y: 0, z: 0.0010757446}
+  m_Size: {x: 1.1097198, y: 0.3, z: 0.16859946}
+  m_Center: {x: 0.025073607, y: 0.018619865, z: 0.0010757446}
 --- !u!4 &1518586272 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5015851073235153941, guid: fd8212a6b4413da43bfbf816034a6a69, type: 3}
@@ -24921,8 +24921,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1.1030256, y: 0.08814649, z: 0.17348067}
-  m_Center: {x: 0.001512797, y: -0.0059267506, z: 0.0042010946}
+  m_Size: {x: 1.1269841, y: 0.3, z: 0.17348067}
+  m_Center: {x: 0.013786691, y: 0.016149737, z: 0.0042010946}
 --- !u!1001 &1966870427
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -25370,8 +25370,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1.060991, y: 0.1, z: 0.18918586}
-  m_Center: {x: 0.0033911194, y: 0, z: -0.003795743}
+  m_Size: {x: 1.1073927, y: 0.3, z: 0.20835471}
+  m_Center: {x: 0.019140897, y: 0.011502117, z: -0.0026379824}
 --- !u!1 &2072487480
 GameObject:
   m_ObjectHideFlags: 0

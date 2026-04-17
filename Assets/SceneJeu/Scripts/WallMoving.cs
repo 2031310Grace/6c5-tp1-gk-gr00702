@@ -18,4 +18,9 @@ public class WallMoving : MonoBehaviour
         float x = Mathf.Sin(Time.time * speed) * distance;
         transform.position = start + new Vector3(x, 0, 0);
     }
+
+    public bool IsOpen()
+    {
+        return transform.position.x <= start.x - distance + 0.1f;
+    }
 }

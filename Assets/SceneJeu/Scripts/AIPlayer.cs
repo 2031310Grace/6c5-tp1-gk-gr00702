@@ -12,8 +12,9 @@ public class AIPlayer : MonoBehaviour
     public Transform[] buts;
     private float speedPlayer = 5f;
     private float slowSpeed = 1f;
-   
+    public WallMoving wallMoving;
 
+    private bool waitForTheWall = false;
     private Transform currentGoal;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -30,6 +31,20 @@ public class AIPlayer : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if(waitForTheWall)
+        {
+            if(wallMoving !=null && wallMoving.IsOpen())
+            {
+                player.isStopped = false;
+                waitForTheWall = false;
+            }
+            else
+            {
+                player.isStopped=true;
+            }
+            return;
+        }
+
         if(!player.pathPending && player.remainingDistance < 0.2f)
         {
             StartCoroutine(HandleParticles(currentGoal));
@@ -77,6 +92,27 @@ public class AIPlayer : MonoBehaviour
         if (other.CompareTag("SlowZone"))
         {
             player.speed = slowSpeed;
+        }
+
+        if (other.CompareTag("WaitZone"))
+        {
+            if(wallMoving != null && !wallMoving.IsOpen())
+            {
+                waitForTheWall = true;
+                player.isStopped = true;
+            }
+        }
+    }
+
+    private void OnTriggerStay(Collider other)
+    {
+        if (other.CompareTag("WaitZone"))
+        {
+            if(wallMoving != null && !wallMoving.IsOpen())
+            {
+                waitForTheWall = true;
+                player.isStopped = true;
+            }
         }
     }
 

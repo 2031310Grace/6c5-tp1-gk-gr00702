@@ -31,12 +31,20 @@ public class AIPlayer : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (!player.isOnNavMesh)
+            return;
+
         if(waitForTheWall)
         {
             if(wallMoving !=null && wallMoving.IsOpen())
             {
                 player.isStopped = false;
                 waitForTheWall = false;
+
+                if(currentGoal != null)
+                {
+                    player.SetDestination(currentGoal.position);
+                }
             }
             else
             {

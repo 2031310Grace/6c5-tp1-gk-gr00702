@@ -27815,6 +27815,7 @@ MonoBehaviour:
   cameras:
   - {fileID: 1558719844}
   - {fileID: 1168297553}
+  - {fileID: 1338060400}
 --- !u!4 &990098117 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4441194852809919528, guid: 5c6a1648d6f5d8b45997037cbb0ea5ff, type: 3}
@@ -34246,7 +34247,7 @@ GameObject:
   - component: {fileID: 1338060399}
   - component: {fileID: 1338060398}
   m_Layer: 0
-  m_Name: CameraFollow
+  m_Name: CameraFollow2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

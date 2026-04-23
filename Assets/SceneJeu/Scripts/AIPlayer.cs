@@ -13,6 +13,7 @@ public class AIPlayer : MonoBehaviour
     private float speedPlayer = 5f;
     private float slowSpeed = 1f;
     public WallMoving wallMoving;
+    private Animator animator;
 
     private bool waitForTheWall = false;
     private Transform currentGoal;
@@ -20,7 +21,7 @@ public class AIPlayer : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-
+        animator = GetComponentInChildren<Animator>();
         player= GetComponent<NavMeshAgent>();
         player.speed = speedPlayer;
         choseNextGoal();
@@ -31,6 +32,9 @@ public class AIPlayer : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        float normalSpeed = player.velocity.magnitude;
+        animator.SetFloat("Speed", normalSpeed / player.speed);
+
         if (!player.isOnNavMesh)
             return;
 

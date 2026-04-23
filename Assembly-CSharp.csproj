@@ -9,7 +9,8 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <RootNamespace></RootNamespace>
+    <RootNamespace>
+    </RootNamespace>
     <ProjectGuid>{15EDE7EC-1D5E-0724-41CA-9E742C52CE61}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
@@ -62,8 +63,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Wall.cs" />
+    <Compile Include="Assets\SceneJeu\Scripts\ReachedGoal.cs" />
     <Compile Include="Assets\SceneJeu\Scripts\AIPlayer.cs" />
     <Compile Include="Assets\SceneJeu\Scripts\WallMoving.cs" />
+    <Compile Include="Assets\SceneJeu\Scripts\PlayerScene2.cs" />
+    <Compile Include="Assets\SceneJeu\Scripts\CrawlZone.cs" />
     <Compile Include="Assets\SceneJeu\Scripts\CameraFollow.cs" />
     <Compile Include="Assets\SceneIntro\Scripts\VideoPlayerCTRL.cs" />
     <Compile Include="Assets\SceneIntro\Scripts\ChangeScene.cs" />

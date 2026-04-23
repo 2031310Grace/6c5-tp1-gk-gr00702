@@ -13,8 +13,8 @@ NavMeshProjectSettings:
     cost: 2
   - name: SlowZone
     cost: 4
-  - name: 
-    cost: 1
+  - name: Crawl
+    cost: 5
   - name: 
     cost: 1
   - name: 

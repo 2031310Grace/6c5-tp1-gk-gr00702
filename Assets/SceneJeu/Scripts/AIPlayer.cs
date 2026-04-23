@@ -13,7 +13,7 @@ public class AIPlayer : MonoBehaviour
     private float speedPlayer = 5f;
     private float slowSpeed = 1f;
     public WallMoving wallMoving;
-    private Animator animator;
+    protected Animator animator;
 
     private bool waitForTheWall = false;
     private Transform currentGoal;
@@ -30,7 +30,7 @@ public class AIPlayer : MonoBehaviour
  
 
     // Update is called once per frame
-    void Update()
+    protected virtual void Update()
     {
         float normalSpeed = player.velocity.magnitude;
         animator.SetFloat("Speed", normalSpeed / player.speed);
@@ -81,10 +81,8 @@ public class AIPlayer : MonoBehaviour
         }
     }
 
-    private void choseNextGoal()
+    protected void choseNextGoal()
     {
-     
-
         Transform newGoal;
 
         do
@@ -134,5 +132,11 @@ public class AIPlayer : MonoBehaviour
         {
             player.speed = speedPlayer;
         }
+    }
+
+
+    void OnReachedGoal()
+    {
+        animator.SetTrigger("ReachedGoal");
     }
 }

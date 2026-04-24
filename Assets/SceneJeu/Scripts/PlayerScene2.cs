@@ -1,3 +1,5 @@
+using System.Collections;
+using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -21,6 +23,14 @@ public class PlayerScene2 : AIPlayer
 
         if (!player.isOnNavMesh) return;
 
+        if (isCelebrate) return;
+
+        if(player.isStopped)
+        {
+            animator.SetFloat("Speed", 0f);
+            return;
+        }
+
         if (!isCrawling)
         {
             float distance = Vector3.Distance(transform.position, player.destination);
@@ -28,7 +38,13 @@ public class PlayerScene2 : AIPlayer
         }
 
         float normalSpeed = player.velocity.magnitude / speedRun;
-        animator.SetFloat("Speed", normalSpeed, 0.1f, Time.deltaTime);
+        animator.SetFloat("Speed", normalSpeed / player.speed, 0.1f, Time.deltaTime);
+
+        //if(!player.pathPending && player.remainingDistance < 0.2f 
+        //    && !player.isStopped)
+        //{
+        //    animator.SetTrigger("ReachedGoal");
+        //}
     }
 
     public void SetCrawling(bool b)
@@ -44,6 +60,7 @@ public class PlayerScene2 : AIPlayer
         player.isStopped = pause;
         if (!pause) this.choseNextGoal();
     }
+
 
     protected override void OnTriggerEnter(Collider other)
     {

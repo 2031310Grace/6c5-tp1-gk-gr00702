@@ -62,13 +62,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Wall.cs" />
-    <Compile Include="Assets\SceneJeu\Scripts\ReachedGoal.cs" />
     <Compile Include="Assets\SceneJeu\Scripts\AIPlayer.cs" />
     <Compile Include="Assets\SceneJeu\Scripts\WallMoving.cs" />
     <Compile Include="Assets\SceneJeu\Scripts\PlayerScene2.cs" />
     <Compile Include="Assets\SceneJeu\Scripts\CrawlZone.cs" />
     <Compile Include="Assets\SceneJeu\Scripts\CameraFollow.cs" />
     <Compile Include="Assets\SceneIntro\Scripts\VideoPlayerCTRL.cs" />
+    <Compile Include="Assets\SceneJeu\Scripts\CelebrateBehaviour.cs" />
     <Compile Include="Assets\SceneIntro\Scripts\ChangeScene.cs" />
     <Compile Include="Assets\ChangeView.cs" />
     <Compile Include="Assets\SceneIntro\Scripts\SelectCanvas.cs" />

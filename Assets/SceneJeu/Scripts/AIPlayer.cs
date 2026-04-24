@@ -3,6 +3,7 @@ using System.Collections;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
+using static UnityEngine.ParticleSystem;
 using Random = UnityEngine.Random;
 
 public class AIPlayer : MonoBehaviour
@@ -17,51 +18,55 @@ public class AIPlayer : MonoBehaviour
 
     private bool waitForTheWall = false;
     private Transform currentGoal;
-    private bool isCelebrating=false;
+    protected bool isCelebrate = false;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     protected virtual void Start()
     {
         animator = GetComponentInChildren<Animator>();
-        player= GetComponent<NavMeshAgent>();
+        player = GetComponent<NavMeshAgent>();
         player.speed = speedPlayer;
         choseNextGoal();
     }
 
- 
+
 
     // Update is called once per frame
     protected virtual void Update()
     {
-        float normalSpeed = player.velocity.magnitude;
-        animator.SetFloat("Speed", normalSpeed / player.speed);
+        //float normalSpeed = player.velocity.magnitude;
+        //animator.SetFloat("Speed", normalSpeed / player.speed);
 
-        if (!player.isOnNavMesh)
-            return;
+        if (!player.isOnNavMesh) return;
 
-        if(waitForTheWall)
+        if (!isCelebrate)
         {
-            if(wallMoving !=null && wallMoving.IsOpen())
+            float normalSpeed = player.velocity.magnitude;
+            animator.SetFloat("Speed", normalSpeed / player.speed);
+        }
+
+        if (waitForTheWall)
+        {
+            if (wallMoving != null && wallMoving.IsOpen())
             {
                 player.isStopped = false;
                 waitForTheWall = false;
 
-                if(currentGoal != null)
+                if (currentGoal != null)
                 {
                     player.SetDestination(currentGoal.position);
                 }
             }
             else
             {
-                player.isStopped=true;
+                player.isStopped = true;
             }
             return;
         }
 
-        if(!isCelebrating && !player.pathPending && player.remainingDistance < 0.2f)
+        if (!isCelebrate && !player.pathPending && player.remainingDistance < 0.2f)
         {
             //StartCoroutine(HandleParticles(currentGoal));
-
             //choseNextGoal();
             StartCoroutine(GoalReached());
         }
@@ -69,19 +74,57 @@ public class AIPlayer : MonoBehaviour
 
     private IEnumerator GoalReached()
     {
-        isCelebrating = true;
+        //isCelebrate = true;
 
+        //player.isStopped = true;
+        //player.ResetPath();
+        //animator.SetFloat("Speed", 0f);
+
+        ////vien dajouter
+        ////player.velocity = Vector3.zero;
+        ////ParticleSystem particules = currentGoal.GetComponentInChildren<ParticleSystem>();
+
+
+        //StartCoroutine(HandleParticles(currentGoal));
+        //animator.SetTrigger("ReachedGoal");
+
+        ////celebration
+        //yield return new WaitForSeconds(3f);
+
+        ////vien d'ajouter
+        ////if (particules != null)
+        ////{
+        ////    particules.Play();
+        ////}
+
+        //choseNextGoal();
+
+        isCelebrate = true;
         player.isStopped = true;
+        player.ResetPath();
+        player.velocity = Vector3.zero;
+        animator.SetFloat("Speed", 0f);
 
         StartCoroutine(HandleParticles(currentGoal));
         animator.SetTrigger("ReachedGoal");
 
-        yield return new WaitForSeconds(2f);
+        yield break;
 
+        //player.isStopped = false;
+        //isCelebrate = false;
+    }
+
+    public void OnVictoryStart()
+    {
+       
+    }
+
+    //viens dajouter
+    public void OnVictoryEnd()
+    {
         choseNextGoal();
-
         player.isStopped = false;
-        isCelebrating = false;
+        isCelebrate = false;
     }
 
 
@@ -93,7 +136,8 @@ public class AIPlayer : MonoBehaviour
         {
             particules.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
 
-            yield return new WaitForSeconds(1f);
+            // attendre 2s
+            yield return new WaitForSeconds(5f);
 
             particules.Play();
         }
@@ -124,7 +168,7 @@ public class AIPlayer : MonoBehaviour
 
         if (other.CompareTag("WaitZone"))
         {
-            if(wallMoving != null && !wallMoving.IsOpen())
+            if (wallMoving != null && !wallMoving.IsOpen())
             {
                 waitForTheWall = true;
                 player.isStopped = true;
@@ -136,7 +180,7 @@ public class AIPlayer : MonoBehaviour
     {
         if (other.CompareTag("WaitZone"))
         {
-            if(wallMoving != null && !wallMoving.IsOpen())
+            if (wallMoving != null && !wallMoving.IsOpen())
             {
                 waitForTheWall = true;
                 player.isStopped = true;
@@ -153,8 +197,5 @@ public class AIPlayer : MonoBehaviour
     }
 
 
-    void OnReachedGoal()
-    {
-        animator.SetTrigger("ReachedGoal");
-    }
+
 }

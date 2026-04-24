@@ -11849,7 +11849,7 @@ GameObject:
   - component: {fileID: 736573748}
   m_Layer: 0
   m_Name: CrawlingZone
-  m_TagString: Untagged
+  m_TagString: CrawlZone
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -11869,7 +11869,7 @@ BoxCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
@@ -17902,7 +17902,6 @@ MonoBehaviour:
   cameras:
   - {fileID: 1558719844}
   - {fileID: 1168297553}
-  - {fileID: 0}
 --- !u!4 &990098117 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4441194852809919528, guid: 5c6a1648d6f5d8b45997037cbb0ea5ff, type: 3}
@@ -19020,7 +19019,7 @@ GameObject:
   - component: {fileID: 1209143586}
   m_Layer: 0
   m_Name: SandCrawl
-  m_TagString: Untagged
+  m_TagString: CrawlZone
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 2147483647

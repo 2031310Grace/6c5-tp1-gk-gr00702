@@ -9,9 +9,9 @@ public class PlayerScene2 : AIPlayer
     private bool isCrawling = false;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    protected override void Start()
     {
-        
+        base.Start();
     }
 
     // Update is called once per frame
@@ -28,7 +28,7 @@ public class PlayerScene2 : AIPlayer
         }
 
         float normalSpeed = player.velocity.magnitude / speedRun;
-        animator.SetFloat("Speed", normalSpeed);
+        animator.SetFloat("Speed", normalSpeed, 0.1f, Time.deltaTime);
     }
 
     public void SetCrawling(bool b)
@@ -43,5 +43,23 @@ public class PlayerScene2 : AIPlayer
     {
         player.isStopped = pause;
         if (!pause) this.choseNextGoal();
+    }
+
+    protected override void OnTriggerEnter(Collider other)
+    {
+        base.OnTriggerEnter(other);
+        if (other.CompareTag("CrawlZone"))
+        {
+            SetCrawling(true);
+        }
+    }
+
+    protected override void OnTriggerExit(Collider other)
+    {
+        base.OnTriggerExit(other);
+        if (other.CompareTag("CrawlZone"))
+        {
+            SetCrawling(false);
+        }
     }
 }

@@ -17,9 +17,10 @@ public class AIPlayer : MonoBehaviour
 
     private bool waitForTheWall = false;
     private Transform currentGoal;
+    private bool isCelebrating=false;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    protected virtual void Start()
     {
         animator = GetComponentInChildren<Animator>();
         player= GetComponent<NavMeshAgent>();
@@ -57,13 +58,32 @@ public class AIPlayer : MonoBehaviour
             return;
         }
 
-        if(!player.pathPending && player.remainingDistance < 0.2f)
+        if(!isCelebrating && !player.pathPending && player.remainingDistance < 0.2f)
         {
-            StartCoroutine(HandleParticles(currentGoal));
+            //StartCoroutine(HandleParticles(currentGoal));
 
-            choseNextGoal();
+            //choseNextGoal();
+            StartCoroutine(GoalReached());
         }
     }
+
+    private IEnumerator GoalReached()
+    {
+        isCelebrating = true;
+
+        player.isStopped = true;
+
+        StartCoroutine(HandleParticles(currentGoal));
+        animator.SetTrigger("ReachedGoal");
+
+        yield return new WaitForSeconds(2f);
+
+        choseNextGoal();
+
+        player.isStopped = false;
+        isCelebrating = false;
+    }
+
 
     private IEnumerator HandleParticles(Transform currentGoal)
     {
@@ -73,10 +93,8 @@ public class AIPlayer : MonoBehaviour
         {
             particules.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
 
-            // attendre 2 secondes
-            yield return new WaitForSeconds(2f);
+            yield return new WaitForSeconds(1f);
 
-            // ensuite relancer
             particules.Play();
         }
     }
@@ -95,7 +113,7 @@ public class AIPlayer : MonoBehaviour
         player.SetDestination(currentGoal.position);
     }
 
-    private void OnTriggerEnter(Collider other)
+    protected virtual void OnTriggerEnter(Collider other)
     {
         Debug.Log("Entrée dans trigger : " + other.name);
 
@@ -126,7 +144,7 @@ public class AIPlayer : MonoBehaviour
         }
     }
 
-    private void OnTriggerExit(Collider other)
+    protected virtual void OnTriggerExit(Collider other)
     {
         if (other.CompareTag("SlowZone"))
         {

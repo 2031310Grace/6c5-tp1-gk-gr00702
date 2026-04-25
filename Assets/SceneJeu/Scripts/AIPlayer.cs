@@ -64,10 +64,11 @@ public class AIPlayer : MonoBehaviour
             return;
         }
 
-        if (!isCelebrate && !player.pathPending && player.remainingDistance < 0.2f)
+        if (!isCelebrate && !player.pathPending && player.hasPath && player.remainingDistance < 0.2f)
         {
             //StartCoroutine(HandleParticles(currentGoal));
             //choseNextGoal();
+            isCelebrate = true;
             StartCoroutine(GoalReached());
         }
     }
@@ -99,7 +100,7 @@ public class AIPlayer : MonoBehaviour
 
         //choseNextGoal();
 
-        isCelebrate = true;
+        //isCelebrate = true;
         player.isStopped = true;
         player.ResetPath();
         player.velocity = Vector3.zero;
@@ -122,9 +123,11 @@ public class AIPlayer : MonoBehaviour
     //viens dajouter
     public void OnVictoryEnd()
     {
-        choseNextGoal();
-        player.isStopped = false;
         isCelebrate = false;
+        player.velocity = Vector3.zero;
+        player.isStopped = false;
+        //isCelebrate = false;
+        choseNextGoal();
     }
 
 

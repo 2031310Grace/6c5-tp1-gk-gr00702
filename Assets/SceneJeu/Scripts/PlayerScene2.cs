@@ -38,7 +38,7 @@ public class PlayerScene2 : AIPlayer
         }
 
         float normalSpeed = player.velocity.magnitude / speedRun;
-        animator.SetFloat("Speed", normalSpeed / player.speed, 0.1f, Time.deltaTime);
+        animator.SetFloat("Speed", normalSpeed, 0.2f, Time.deltaTime);
 
         //if(!player.pathPending && player.remainingDistance < 0.2f 
         //    && !player.isStopped)
@@ -52,8 +52,31 @@ public class PlayerScene2 : AIPlayer
         isCrawling = b;
         animator.SetBool("isCrawling", b);
 
-        if (b) player.speed = speedWalk;
+        if (b)
+        {
+            player.speed = speedWalk * 0.5f;
+
+            //vien dajouter
+            //StartCoroutine(SmoothSpeedTransition(speedWalk));
+        }
     }
+
+    //vien dajouter
+    //private IEnumerator SmoothSpeedTransition(float targetSpeed)
+    //{
+    //    float startSpeed = player.speed;
+    //    float elapsed = 0f;
+    //    float duration = 0.3f;
+
+    //    while (elapsed < duration)
+    //    {
+    //        elapsed += Time.deltaTime;
+    //        player.speed = Mathf.Lerp(startSpeed, targetSpeed, elapsed / duration);
+    //        yield return null;
+    //    }
+
+    //    player.speed = targetSpeed;
+    //}
 
     public void Wait(bool pause)
     {
@@ -65,18 +88,18 @@ public class PlayerScene2 : AIPlayer
     protected override void OnTriggerEnter(Collider other)
     {
         base.OnTriggerEnter(other);
-        if (other.CompareTag("CrawlZone"))
-        {
-            SetCrawling(true);
-        }
+        //if (other.CompareTag("CrawlZone"))
+        //{
+        //    SetCrawling(true);
+        //}
     }
 
     protected override void OnTriggerExit(Collider other)
     {
         base.OnTriggerExit(other);
-        if (other.CompareTag("CrawlZone"))
-        {
-            SetCrawling(false);
-        }
+        //if (other.CompareTag("CrawlZone"))
+        //{
+        //    SetCrawling(false);
+        //}
     }
 }

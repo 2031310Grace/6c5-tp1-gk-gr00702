@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public class CrawlZone : MonoBehaviour
@@ -14,18 +15,42 @@ public class CrawlZone : MonoBehaviour
         
     }
 
+
+
     void OnTriggerEnter(Collider other)
     {
         var player = other.GetComponentInParent<PlayerScene2>();
         if (player != null)
-            player.SetCrawling(true);
+        {
+            player.StartCoroutine(StartCraw(player));
+        }
+            //player.SetCrawling(true);
     }
 
     void OnTriggerExit(Collider other)
     {
         var agent = other.GetComponentInParent<PlayerScene2>();
         if (agent != null)
-            agent.SetCrawling(false);
+        {
+             agent.StartCoroutine(StopCraw(agent));
+        }
+            //agent.SetCrawling(false);
+    }
+
+
+    IEnumerator StartCraw(PlayerScene2 player)
+    {
+        player.player.speed = 1f; // ralentit avant
+        yield return new WaitForSeconds(0.2f);
+
+        player.SetCrawling(true);
+    }
+
+    IEnumerator StopCraw(PlayerScene2 player)
+    {
+        yield return new WaitForSeconds(0.1f);
+
+        player.SetCrawling(false);
     }
 
 

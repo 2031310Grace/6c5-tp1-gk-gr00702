@@ -11,7 +11,7 @@ public class AIPlayer : MonoBehaviour
 
     public NavMeshAgent player;
     public Transform[] buts;
-    private float speedPlayer = 5f;
+    private float speedPlayer = 3.5f;
     private float slowSpeed = 1f;
     //public WallMoving wallMoving;
     protected Animator animator;
@@ -169,14 +169,16 @@ public class AIPlayer : MonoBehaviour
             player.speed = slowSpeed;
         }
 
-        //if (other.CompareTag("WaitZone"))
-        //{
-        //    if (wallMoving != null && !wallMoving.IsOpen())
-        //    {
-        //        waitForTheWall = true;
-        //        player.isStopped = true;
-        //    }
-        //}
+    }
+
+    protected virtual void OnTriggerExit(Collider other)
+    {
+        Debug.Log("Sortie de lazone trigger : " + other.name);
+
+        if (other.CompareTag("SlowZone"))
+        {
+            player.speed = speedPlayer;
+        }
     }
 
     //private void OnTriggerStay(Collider other)
@@ -191,13 +193,7 @@ public class AIPlayer : MonoBehaviour
     //    }
     //}
 
-    protected virtual void OnTriggerExit(Collider other)
-    {
-        if (other.CompareTag("SlowZone"))
-        {
-            player.speed = speedPlayer;
-        }
-    }
+
 
 
 

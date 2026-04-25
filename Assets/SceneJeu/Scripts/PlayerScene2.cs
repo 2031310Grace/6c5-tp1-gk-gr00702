@@ -6,11 +6,15 @@ using UnityEngine;
 public class PlayerScene2 : AIPlayer
 {
     private float speedWalk = 1.5f;
-    private float speedRun = 5f;
+    private float speedRun = 3.5f;
     private float slowRadius= 4f;
 
     private bool isCrawling = false;
     private float crawlSpeed = 0.8f;
+
+    //vient dajouter
+    private bool isSlowed = false;
+    private float slowZoneSpeed = 1f;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     protected override void Start()
@@ -23,10 +27,10 @@ public class PlayerScene2 : AIPlayer
     {
         base.Update();
 
-        if (!player.isOnNavMesh) return;
-        if (isCelebrate) return;
+        if (!player.isOnNavMesh || isCelebrate) return;
+        //if (isCelebrate) return;
 
-        if(player.isStopped)
+        if (player.isStopped)
         {
             animator.SetFloat("Speed", 0f);
             return;
@@ -39,8 +43,20 @@ public class PlayerScene2 : AIPlayer
             return;
         }
 
-        float distance = Vector3.Distance(transform.position, player.destination);
-        player.speed = (distance < slowRadius) ? speedWalk : speedRun;
+        //vient dajouter
+        if (isSlowed)
+        {
+            player.speed = slowZoneSpeed;
+            //animator.SetFloat("Speed", player.velocity.magnitude / speedRun, 0.2f, Time.deltaTime);
+        }
+        else
+        {
+            float distance = Vector3.Distance(transform.position, player.destination);
+            player.speed = (distance < slowRadius) ? speedWalk : speedRun;
+        }
+
+        //float distance = Vector3.Distance(transform.position, player.destination);
+        //player.speed = (distance < slowRadius) ? speedWalk : speedRun;
 
         //if (!isCrawling)
         //{
@@ -56,6 +72,7 @@ public class PlayerScene2 : AIPlayer
         //{
         //    animator.SetTrigger("ReachedGoal");
         //}
+
     }
 
     public void SetCrawling(bool b)
@@ -88,6 +105,12 @@ public class PlayerScene2 : AIPlayer
     {
         base.OnTriggerEnter(other);
 
+
+        if (other.CompareTag("SlowZone"))
+        {
+            isSlowed = true;
+        }
+
         if (other.CompareTag("CrawlZone"))
         {
             SetCrawling(true);
@@ -97,6 +120,11 @@ public class PlayerScene2 : AIPlayer
     protected override void OnTriggerExit(Collider other)
     {
         base.OnTriggerExit(other);
+
+        if (other.CompareTag("SlowZone"))
+        {
+            isSlowed = false;
+        }
 
         if (other.CompareTag("CrawlZone"))
         {

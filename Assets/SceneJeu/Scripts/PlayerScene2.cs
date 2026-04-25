@@ -8,7 +8,9 @@ public class PlayerScene2 : AIPlayer
     private float speedWalk = 1.5f;
     private float speedRun = 5f;
     private float slowRadius= 4f;
+
     private bool isCrawling = false;
+    private float crawlSpeed = 0.8f;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     protected override void Start()
@@ -22,7 +24,6 @@ public class PlayerScene2 : AIPlayer
         base.Update();
 
         if (!player.isOnNavMesh) return;
-
         if (isCelebrate) return;
 
         if(player.isStopped)
@@ -31,11 +32,21 @@ public class PlayerScene2 : AIPlayer
             return;
         }
 
-        if (!isCrawling)
+        if (isCrawling)
         {
-            float distance = Vector3.Distance(transform.position, player.destination);
-            player.speed = (distance < slowRadius ) ? speedWalk : speedRun;
+            player.speed = crawlSpeed;
+            animator.SetFloat("Speed", 0.2f);
+            return;
         }
+
+        float distance = Vector3.Distance(transform.position, player.destination);
+        player.speed = (distance < slowRadius) ? speedWalk : speedRun;
+
+        //if (!isCrawling)
+        //{
+        //    float distance = Vector3.Distance(transform.position, player.destination);
+        //    player.speed = (distance < slowRadius ) ? speedWalk : speedRun;
+        //}
 
         float normalSpeed = player.velocity.magnitude / speedRun;
         animator.SetFloat("Speed", normalSpeed, 0.2f, Time.deltaTime);
@@ -49,34 +60,22 @@ public class PlayerScene2 : AIPlayer
 
     public void SetCrawling(bool b)
     {
+        //vien dajouter
+        if(isCrawling == b) return;
+
         isCrawling = b;
         animator.SetBool("isCrawling", b);
 
         if (b)
         {
-            player.speed = speedWalk * 0.5f;
+            //player.speed = speedWalk * 0.5f;
+            player.speed = crawlSpeed;
 
             //vien dajouter
             //StartCoroutine(SmoothSpeedTransition(speedWalk));
         }
     }
 
-    //vien dajouter
-    //private IEnumerator SmoothSpeedTransition(float targetSpeed)
-    //{
-    //    float startSpeed = player.speed;
-    //    float elapsed = 0f;
-    //    float duration = 0.3f;
-
-    //    while (elapsed < duration)
-    //    {
-    //        elapsed += Time.deltaTime;
-    //        player.speed = Mathf.Lerp(startSpeed, targetSpeed, elapsed / duration);
-    //        yield return null;
-    //    }
-
-    //    player.speed = targetSpeed;
-    //}
 
     public void Wait(bool pause)
     {
@@ -88,18 +87,20 @@ public class PlayerScene2 : AIPlayer
     protected override void OnTriggerEnter(Collider other)
     {
         base.OnTriggerEnter(other);
-        //if (other.CompareTag("CrawlZone"))
-        //{
-        //    SetCrawling(true);
-        //}
+
+        if (other.CompareTag("CrawlZone"))
+        {
+            SetCrawling(true);
+        }
     }
 
     protected override void OnTriggerExit(Collider other)
     {
         base.OnTriggerExit(other);
-        //if (other.CompareTag("CrawlZone"))
-        //{
-        //    SetCrawling(false);
-        //}
+
+        if (other.CompareTag("CrawlZone"))
+        {
+            SetCrawling(false);
+        }
     }
 }

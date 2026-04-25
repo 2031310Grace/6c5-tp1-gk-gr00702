@@ -13,10 +13,10 @@ public class AIPlayer : MonoBehaviour
     public Transform[] buts;
     private float speedPlayer = 5f;
     private float slowSpeed = 1f;
-    public WallMoving wallMoving;
+    //public WallMoving wallMoving;
     protected Animator animator;
 
-    private bool waitForTheWall = false;
+    //private bool waitForTheWall = false;
     private Transform currentGoal;
     protected bool isCelebrate = false;
 
@@ -45,24 +45,24 @@ public class AIPlayer : MonoBehaviour
             animator.SetFloat("Speed", normalSpeed / player.speed);
         }
 
-        if (waitForTheWall)
-        {
-            if (wallMoving != null && wallMoving.IsOpen())
-            {
-                player.isStopped = false;
-                waitForTheWall = false;
+        //if (waitForTheWall)
+        //{
+        //    if (wallMoving != null && wallMoving.IsOpen())
+        //    {
+        //        player.isStopped = false;
+        //        waitForTheWall = false;
 
-                if (currentGoal != null)
-                {
-                    player.SetDestination(currentGoal.position);
-                }
-            }
-            else
-            {
-                player.isStopped = true;
-            }
-            return;
-        }
+        //        if (currentGoal != null)
+        //        {
+        //            player.SetDestination(currentGoal.position);
+        //        }
+        //    }
+        //    else
+        //    {
+        //        player.isStopped = true;
+        //    }
+        //    return;
+        //}
 
         if (!isCelebrate && !player.pathPending && player.hasPath && player.remainingDistance < 0.2f)
         {
@@ -169,27 +169,27 @@ public class AIPlayer : MonoBehaviour
             player.speed = slowSpeed;
         }
 
-        if (other.CompareTag("WaitZone"))
-        {
-            if (wallMoving != null && !wallMoving.IsOpen())
-            {
-                waitForTheWall = true;
-                player.isStopped = true;
-            }
-        }
+        //if (other.CompareTag("WaitZone"))
+        //{
+        //    if (wallMoving != null && !wallMoving.IsOpen())
+        //    {
+        //        waitForTheWall = true;
+        //        player.isStopped = true;
+        //    }
+        //}
     }
 
-    private void OnTriggerStay(Collider other)
-    {
-        if (other.CompareTag("WaitZone"))
-        {
-            if (wallMoving != null && !wallMoving.IsOpen())
-            {
-                waitForTheWall = true;
-                player.isStopped = true;
-            }
-        }
-    }
+    //private void OnTriggerStay(Collider other)
+    //{
+    //    if (other.CompareTag("WaitZone"))
+    //    {
+    //        if (wallMoving != null && !wallMoving.IsOpen())
+    //        {
+    //            waitForTheWall = true;
+    //            player.isStopped = true;
+    //        }
+    //    }
+    //}
 
     protected virtual void OnTriggerExit(Collider other)
     {

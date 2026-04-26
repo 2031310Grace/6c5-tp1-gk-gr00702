@@ -13,10 +13,10 @@ public class AIPlayer : MonoBehaviour
     public Transform[] buts;
     private float speedPlayer = 3.5f;
     private float slowSpeed = 1f;
-    //public WallMoving wallMoving;
+    public WallMoving wallMoving;
     protected Animator animator;
 
-    //private bool waitForTheWall = false;
+    private bool waitForTheWall = false;
     private Transform currentGoal;
     protected bool isCelebrate = false;
 
@@ -25,6 +25,14 @@ public class AIPlayer : MonoBehaviour
     {
         animator = GetComponentInChildren<Animator>();
         player = GetComponent<NavMeshAgent>();
+
+        //
+        if (player == null)
+        {
+            Debug.LogError("NavMeshAgent manquant sur " + gameObject.name);
+            return;
+        }
+
         player.speed = speedPlayer;
         choseNextGoal();
     }
@@ -37,32 +45,42 @@ public class AIPlayer : MonoBehaviour
         //float normalSpeed = player.velocity.magnitude;
         //animator.SetFloat("Speed", normalSpeed / player.speed);
 
+        //
+        if (player == null) return;
+
         if (!player.isOnNavMesh) return;
 
-        if (!isCelebrate)
+        if (animator != null && !isCelebrate)
         {
             float normalSpeed = player.velocity.magnitude;
             animator.SetFloat("Speed", normalSpeed / player.speed);
         }
 
-        //if (waitForTheWall)
-        //{
-        //    if (wallMoving != null && wallMoving.IsOpen())
-        //    {
-        //        player.isStopped = false;
-        //        waitForTheWall = false;
 
-        //        if (currentGoal != null)
-        //        {
-        //            player.SetDestination(currentGoal.position);
-        //        }
-        //    }
-        //    else
-        //    {
-        //        player.isStopped = true;
-        //    }
-        //    return;
+        //if (!isCelebrate)
+        //{
+        //    float normalSpeed = player.velocity.magnitude;
+        //    animator.SetFloat("Speed", normalSpeed / player.speed);
         //}
+
+        if (waitForTheWall)
+        {
+            if (wallMoving != null && wallMoving.IsOpen())
+            {
+                player.isStopped = false;
+                waitForTheWall = false;
+
+                if (currentGoal != null)
+                {
+                    player.SetDestination(currentGoal.position);
+                }
+            }
+            else
+            {
+                player.isStopped = true;
+            }
+            return;
+        }
 
         if (!isCelebrate && !player.pathPending && player.hasPath && player.remainingDistance < 0.2f)
         {
@@ -73,41 +91,37 @@ public class AIPlayer : MonoBehaviour
         }
     }
 
+
+    /// <summary>
+    /// Coroutine déclenchée à l'arrivée au but.
+    /// Arrête l'agent, lance les particules et déclenche l'animation de célébration si disponible.
+    /// Si aucun Animator n'est présent (capsules), repart automatiquement après un délai.
+    /// </summary>
+    /// <returns>IEnumerator pour la coroutine Unity.</returns>
     private IEnumerator GoalReached()
     {
-        //isCelebrate = true;
 
-        //player.isStopped = true;
-        //player.ResetPath();
-        //animator.SetFloat("Speed", 0f);
-
-        ////vien dajouter
-        ////player.velocity = Vector3.zero;
-        ////ParticleSystem particules = currentGoal.GetComponentInChildren<ParticleSystem>();
-
-
-        //StartCoroutine(HandleParticles(currentGoal));
-        //animator.SetTrigger("ReachedGoal");
-
-        ////celebration
-        //yield return new WaitForSeconds(3f);
-
-        ////vien d'ajouter
-        ////if (particules != null)
-        ////{
-        ////    particules.Play();
-        ////}
-
-        //choseNextGoal();
-
-        //isCelebrate = true;
         player.isStopped = true;
         player.ResetPath();
         player.velocity = Vector3.zero;
-        animator.SetFloat("Speed", 0f);
+        //animator.SetFloat("Speed", 0f);
+
+        //
+        if (animator != null)
+        {
+            animator.SetFloat("Speed", 0f);
+            animator.SetTrigger("ReachedGoal");
+        }
 
         StartCoroutine(HandleParticles(currentGoal));
-        animator.SetTrigger("ReachedGoal");
+        //animator.SetTrigger("ReachedGoal");
+
+        // pas d'animator, repartir immédiatement
+        if (animator == null)
+        {
+            yield return new WaitForSeconds(1f);
+            OnVictoryEnd();
+        }
 
         yield break;
 
@@ -115,12 +129,22 @@ public class AIPlayer : MonoBehaviour
         //isCelebrate = false;
     }
 
+
+    /// <summary>
+    /// Appelée par l'Animator au début de l'animation de victoire.
+    /// Peut être surchargée par les classes filles pour ajouter un comportement spécifique.
+    /// </summary>
     public void OnVictoryStart()
     {
        
     }
 
-    //viens dajouter
+
+    /// <summary>
+    /// Appelée par le StateMachineBehaviour (ReachedGoal) à la fin de l'animation de victoire,
+    /// ou automatiquement après un délai si aucun Animator n'est présent.
+    /// Réinitialise l'état de célébration et choisit le prochain but.
+    /// </summary>
     public void OnVictoryEnd()
     {
         isCelebrate = false;
@@ -131,6 +155,13 @@ public class AIPlayer : MonoBehaviour
     }
 
 
+
+    /// <summary>
+    /// Coroutine qui arrête temporairement l'effet de particules du but atteint,
+    /// attend un délai, puis le relance.
+    /// </summary>
+    /// <param name="currentGoal">Le but dont on veut gérer les particules.</param>
+    /// <returns>IEnumerator pour la coroutine Unity.</returns>
     private IEnumerator HandleParticles(Transform currentGoal)
     {
         ParticleSystem particules = currentGoal.GetComponentInChildren<ParticleSystem>();
@@ -146,6 +177,11 @@ public class AIPlayer : MonoBehaviour
         }
     }
 
+
+    /// <summary>
+    /// Choisit aléatoirement un nouveau but différent du but actuel,
+    /// puis ordonne à l'agent de s'y diriger
+    /// </summary>
     protected void choseNextGoal()
     {
         Transform newGoal;
@@ -180,21 +216,5 @@ public class AIPlayer : MonoBehaviour
             player.speed = speedPlayer;
         }
     }
-
-    //private void OnTriggerStay(Collider other)
-    //{
-    //    if (other.CompareTag("WaitZone"))
-    //    {
-    //        if (wallMoving != null && !wallMoving.IsOpen())
-    //        {
-    //            waitForTheWall = true;
-    //            player.isStopped = true;
-    //        }
-    //    }
-    //}
-
-
-
-
 
 }

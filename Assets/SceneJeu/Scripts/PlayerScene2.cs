@@ -65,7 +65,6 @@ public class PlayerScene2 : AIPlayer
         //}
 
         float normalSpeed = player.velocity.magnitude / speedRun;
-
         animator.SetFloat("Speed", normalSpeed, 0.2f, Time.deltaTime);
 
         //if(!player.pathPending && player.remainingDistance < 0.2f 

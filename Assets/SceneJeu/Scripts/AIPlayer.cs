@@ -37,11 +37,9 @@ public class AIPlayer : MonoBehaviour
         //float normalSpeed = player.velocity.magnitude;
         //animator.SetFloat("Speed", normalSpeed / player.speed);
 
-        if(player == null) return;
-
         if (!player.isOnNavMesh) return;
 
-        if (animator != null && !isCelebrate)
+        if (!isCelebrate)
         {
             float normalSpeed = player.velocity.magnitude;
             animator.SetFloat("Speed", normalSpeed / player.speed);
@@ -106,25 +104,10 @@ public class AIPlayer : MonoBehaviour
         player.isStopped = true;
         player.ResetPath();
         player.velocity = Vector3.zero;
-        //animator.SetFloat("Speed", 0f);
+        animator.SetFloat("Speed", 0f);
 
-        //StartCoroutine(HandleParticles(currentGoal));
-        //animator.SetTrigger("ReachedGoal");
-
-        if (animator != null)              
-        {
-            animator.SetFloat("Speed", 0f);
-            animator.SetTrigger("ReachedGoal");
-        }
-
-        if (currentGoal != null)          
-            StartCoroutine(HandleParticles(currentGoal));
-
-        if (animator == null)              
-        {
-            yield return new WaitForSeconds(1f);
-            OnVictoryEnd();
-        }
+        StartCoroutine(HandleParticles(currentGoal));
+        animator.SetTrigger("ReachedGoal");
 
         yield break;
 

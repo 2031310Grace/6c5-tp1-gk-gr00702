@@ -48,6 +48,7 @@ public class AIPlayer : MonoBehaviour
         //
         if (player == null) return;
 
+
         if (!player.isOnNavMesh) return;
 
         if (animator != null && !isCelebrate)
@@ -93,9 +94,9 @@ public class AIPlayer : MonoBehaviour
 
 
     /// <summary>
-    /// Coroutine déclenchée à l'arrivée au but.
-    /// Arrête l'agent, lance les particules et déclenche l'animation de célébration si disponible.
-    /// Si aucun Animator n'est présent (capsules), repart automatiquement après un délai.
+    /// Coroutine dï¿½clenchï¿½e ï¿½ l'arrivï¿½e au but.
+    /// Arrï¿½te l'agent, lance les particules et dï¿½clenche l'animation de cï¿½lï¿½bration si disponible.
+    /// Si aucun Animator n'est prï¿½sent (capsules), repart automatiquement aprï¿½s un dï¿½lai.
     /// </summary>
     /// <returns>IEnumerator pour la coroutine Unity.</returns>
     private IEnumerator GoalReached()
@@ -106,18 +107,23 @@ public class AIPlayer : MonoBehaviour
         player.velocity = Vector3.zero;
         //animator.SetFloat("Speed", 0f);
 
-        //
-        if (animator != null)
+
+
+
+        //StartCoroutine(HandleParticles(currentGoal));
+        //animator.SetTrigger("ReachedGoal");
+
+        if (animator != null)              
         {
             animator.SetFloat("Speed", 0f);
             animator.SetTrigger("ReachedGoal");
         }
 
-        StartCoroutine(HandleParticles(currentGoal));
-        //animator.SetTrigger("ReachedGoal");
+        if (currentGoal != null)          
+            StartCoroutine(HandleParticles(currentGoal));
 
-        // pas d'animator, repartir immédiatement
-        if (animator == null)
+        if (animator == null)              
+
         {
             yield return new WaitForSeconds(1f);
             OnVictoryEnd();
@@ -131,8 +137,8 @@ public class AIPlayer : MonoBehaviour
 
 
     /// <summary>
-    /// Appelée par l'Animator au début de l'animation de victoire.
-    /// Peut être surchargée par les classes filles pour ajouter un comportement spécifique.
+    /// Appelï¿½e par l'Animator au dï¿½but de l'animation de victoire.
+    /// Peut ï¿½tre surchargï¿½e par les classes filles pour ajouter un comportement spï¿½cifique.
     /// </summary>
     public void OnVictoryStart()
     {
@@ -141,9 +147,9 @@ public class AIPlayer : MonoBehaviour
 
 
     /// <summary>
-    /// Appelée par le StateMachineBehaviour (ReachedGoal) à la fin de l'animation de victoire,
-    /// ou automatiquement après un délai si aucun Animator n'est présent.
-    /// Réinitialise l'état de célébration et choisit le prochain but.
+    /// Appelï¿½e par le StateMachineBehaviour (ReachedGoal) ï¿½ la fin de l'animation de victoire,
+    /// ou automatiquement aprï¿½s un dï¿½lai si aucun Animator n'est prï¿½sent.
+    /// Rï¿½initialise l'ï¿½tat de cï¿½lï¿½bration et choisit le prochain but.
     /// </summary>
     public void OnVictoryEnd()
     {
@@ -157,10 +163,10 @@ public class AIPlayer : MonoBehaviour
 
 
     /// <summary>
-    /// Coroutine qui arrête temporairement l'effet de particules du but atteint,
-    /// attend un délai, puis le relance.
+    /// Coroutine qui arrï¿½te temporairement l'effet de particules du but atteint,
+    /// attend un dï¿½lai, puis le relance.
     /// </summary>
-    /// <param name="currentGoal">Le but dont on veut gérer les particules.</param>
+    /// <param name="currentGoal">Le but dont on veut gï¿½rer les particules.</param>
     /// <returns>IEnumerator pour la coroutine Unity.</returns>
     private IEnumerator HandleParticles(Transform currentGoal)
     {
@@ -179,8 +185,8 @@ public class AIPlayer : MonoBehaviour
 
 
     /// <summary>
-    /// Choisit aléatoirement un nouveau but différent du but actuel,
-    /// puis ordonne à l'agent de s'y diriger
+    /// Choisit alï¿½atoirement un nouveau but diffï¿½rent du but actuel,
+    /// puis ordonne ï¿½ l'agent de s'y diriger
     /// </summary>
     protected void choseNextGoal()
     {
@@ -198,7 +204,7 @@ public class AIPlayer : MonoBehaviour
 
     protected virtual void OnTriggerEnter(Collider other)
     {
-        Debug.Log("Entrée dans trigger : " + other.name);
+        Debug.Log("Entrï¿½e dans trigger : " + other.name);
 
         if (other.CompareTag("SlowZone"))
         {

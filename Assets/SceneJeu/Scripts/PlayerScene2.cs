@@ -22,16 +22,6 @@ public class PlayerScene2 : AIPlayer
         base.Start();
     }
 
-
-
-    /// <summary>
-    /// Appelle le Update du parent puis gère :
-    /// la vitesse adaptative selon la distance au but,
-    /// la vitesse réduite en zone lente,
-    /// et la mise à jour du paramètre Speed de l'Animator.
-    /// Ne fait rien si le personnage célèbre ou est arrêté.
-    /// </summary>
-
     // Update is called once per frame
     protected override void Update()
     {
@@ -53,7 +43,7 @@ public class PlayerScene2 : AIPlayer
             return;
         }
 
-        //
+        //vient dajouter
         if (isSlowed)
         {
             player.speed = slowZoneSpeed;
@@ -85,16 +75,9 @@ public class PlayerScene2 : AIPlayer
 
     }
 
-
-    /// <summary>
-    /// Active/désactive le mode ramper du personnage.
-    /// Met à jour le paramètre "isCrawling" de l'Animator et ajuste la vitesse.
-    /// Ignore l'appel si l'état demandé est déjà l'état actuel.
-    /// </summary>
-    /// <param name="b">True pour activer le ramper, false pour le désactiver.</param>
     public void SetCrawling(bool b)
     {
-        //
+        //vien dajouter
         if(isCrawling == b) return;
 
         isCrawling = b;
@@ -105,19 +88,12 @@ public class PlayerScene2 : AIPlayer
             //player.speed = speedWalk * 0.5f;
             player.speed = crawlSpeed;
 
-            //
+            //vien dajouter
             //StartCoroutine(SmoothSpeedTransition(speedWalk));
         }
     }
 
 
-
-    /// <summary>
-    /// Relance le déplacement de l'agent.
-    /// Appelée par le StateMachineBehaviour ReachedGoal à l'entrée et à la sortie
-    /// de l'animation de célébration.
-    /// </summary>
-    /// <param name="pause">True pour arrêter l'agent, false pour le relancer vers le prochain but.</param>
     public void Wait(bool pause)
     {
         player.isStopped = pause;
